@@ -1,0 +1,27 @@
+#!/usr/bin/env php
+<?php
+// #!/usr/bin/env php => to run PHP from command line
+// application.php
+
+require __DIR__.'/vendor/autoload.php';
+
+use Symfony\Component\Console\Application;
+use App\Commands\Users;
+
+
+try {
+    $pdo = new PDO('mysql:host=127.0.0.1;port=8889;dbname=console', 'root', 'root');
+}
+catch (PDOException $e) {
+
+    die($e->getMessage());
+}
+
+
+$faker = Faker\Factory::create();
+
+$application = new Application();
+
+$application->add(new Users($pdo, $faker));
+
+$application->run();
